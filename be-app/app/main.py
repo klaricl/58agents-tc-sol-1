@@ -63,31 +63,7 @@ async def post_msg(msg: Msg):
         "msg": msg}
 
 @app.get("/messages/get")
-async def get_msg(access_token: Annotated[Union[str, None], Cookie()] = None):
-    print("{} ACCESS_TOKEN\n{}".format(datetime.datetime.now().strftime("[%H:%M:%S-%d%m%Y]"), access_token))
-    
-    keycloak_openid = KeycloakOpenID(
-                #server_url="http://192.168.0.54:30355/",
-                server_url="https://keycloak.homelab.klaric.link",
-                client_id="vrba-overview",
-                realm_name="vrba",
-                client_secret_key=os.environ['CLIENT_ID']
-            )
-
-    try:
-        token_info = keycloak_openid.introspect(access_token)
-    except:
-        return {
-            "msg": "Faile during introspect",
-            "authenticated": False
-            }
-    print("{} TOKEN\n{}".format(datetime.datetime.now().strftime("[%H:%M:%S-%d%m%Y]"), token_info))
-    if not token_info['active']:
-        print("{} TOKEN IS FALSE".format(datetime.datetime.now().strftime("[%H:%M:%S-%d%m%Y]")))
-        return {
-            'msg': 'Token is invalid',
-            'authenticated': False
-        }
+async def get_msg():
     try:
         conn = psycopg2.connect("dbname='vrba' user='postgres' host='vrba-db' password='postgres'")
         #conn.autocommit = True

@@ -48,3 +48,22 @@ jobs:
         push: true
         tags: ${{ steps.meta.outputs.tags }}
         labels: ${{ steps.meta.outputs.labels }}
+  deploy:
+    runs-on: self-hosted
+    needs: build
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Add SHORT_SHA env property with commit short sha
+        id: meta
+        run: echo "short_sha=`echo ${GITHUB_SHA} | cut -c1-7`" >> $GITHUB_OUTPUT
+
+      - name: Check TAG
+        run: |
+          echo ${{ steps.meta.outputs.short_sha }}
+
+      - name: Terraform execution
+        run: |
+          cd ../tf-be
+          echo "Hello World!"
