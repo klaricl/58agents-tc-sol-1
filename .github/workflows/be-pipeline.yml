@@ -20,7 +20,7 @@ jobs:
       uses: docker/metadata-action@v5
       with:
         images: |
-          lklaric/vrba-be
+          lklaric/tc-be-app
         tags: |
           type=sha,enable=true,priority=100,prefix=,suffix=,format=short
 
