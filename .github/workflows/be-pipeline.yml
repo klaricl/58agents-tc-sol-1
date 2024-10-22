@@ -67,5 +67,5 @@ jobs:
         run: |
           pwd
           ls -Al
-          cd ../tf-be
+          #cd ../tf-be
           echo "Hello World!"
