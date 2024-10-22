@@ -29,12 +29,10 @@ app.add_middleware(
     expose_headers=["*"]
 )
 
-
 class Msg(BaseModel):
     name: str
     email: str
     msg: str
-
 
 @app.get("/items/{item_id}")
 def read_item(item_id: int, q: Union[str, None] = None):
