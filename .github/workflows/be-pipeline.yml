@@ -1,4 +1,4 @@
-name: Docker Image CI
+name: Backend Pipeline
 
 on: #workflow_dispatch
   push:
