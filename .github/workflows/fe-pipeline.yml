@@ -66,7 +66,9 @@ jobs:
 
       - name: Terraform execution
         run: |
-          pwd
-          ls -Al
-          #cd ../tf-fe
-          echo "Hello World!"
+          export TF_VAR_client_certificate=${{ secrets.CLIENT_CERTIFICATE }}
+          export TF_VAR_client_key=${{ secrets.CLIENT_KEY }}
+          export TF_VAR_cluster_ca_certificate=${{ secrets.CLUSTER_CA_CERTIFICATE }}
+          cd tf-fe
+          terraform init
+          terraform plan 
