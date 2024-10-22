@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your One-Page Website</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            background-image: url('https://b.kisscc0.com/20180517/ye/kisscc0-anxiety-desktop-wallpaper-open-source-software-pre-nature-5afd7e62450717.4411739115265624022828.jpg'); /* Replace with your banner image URL */
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
+            padding: 100px 0;
+        }
+
+        nav {
+          background-color: #333;
+          overflow: hidden;
+        }
+    
+        nav a {
+          float: left;
+          display: block;
+          color: white;
+          text-align: center;
+          padding: 14px 16px;
+          text-decoration: none;
+        }
+
+        section {
+            max-width: 800px;
+            margin: 2em auto;
+            padding: 1em;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 1em;
+        }
+        form {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        form label {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        form input,
+        form textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        form button {
+            background: #333;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="healthcheck.html">API healthcheck</a>
+        <a href="msgOverview.html">Overview of messages</a>
+        <a href="https://keycloak.homelab.klaric.link/realms/vrba/protocol/openid-connect/auth?response_type=code&client_id=vrba-overview&redirect_uri=https://vrba.homelab.klaric.link/api/callback&scope=openid">Login</a>
+        <!-- Add more links as needed -->
+    </nav>
+    <header>
+        <h1>Klaric</h1>
+        <p>Welcome to our one-page website!</p>
+    </header>
+
+    <section>
+        <h2>About Us</h2>
+        <p>Welcome to Klaric, where innovation meets efficiency in the realm of software development. With a passion for catalyzing growth and productivity, we are your dedicated partners in navigating the ever-evolving landscape of technology.</p>
+    </section>
+    
+    <section>
+        <h2>Our Mission</h2>
+        <p>At Klaric, our mission is clear: empower businesses to unleash their full potential through streamlined and efficient software development processes. We believe that technology should be an enabler, not a bottleneck, and we are committed to propelling your organization towards unprecedented success.</p>
+    </section>
+    
+    <section>
+        <h2>Services</h2>
+        <ul>
+            <li>Process Optimization: We analyze, streamline, and optimize your software development processes to enhance efficiency and reduce time-to-market.</li>
+            <li>Team Empowerment: Through training and mentorship programs, we empower your development teams with the skills and knowledge necessary to excel in a rapidly changing environment.</li>
+            <li>Technology Consulting: Stay at the forefront of innovation with our expert guidance on adopting the latest technologies that align with your business objectives.</li>
+            <li>Project Management: Our project management solutions ensure that your software development projects are delivered on time and within budget.</li>
+        </ul>
+    </section>
+
+    <section id="contact">
+        <h2>Contact Us</h2>
+        <form method="POST">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="message">Message:</label>
+            <textarea id="msg" name="msg" rows="4" required></textarea>
+
+            <button type="button" onclick="postData(event)">Send Message</button>
+        </form>
+    </section>
+
+    <footer>
+        <p>&copy; 2023 Klaric. All rights reserved.</p>
+    </footer>
+
+    <script>
+        async function postData(e) {
+            e.preventDefault();
+            // Get form data
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const msg = document.getElementById('msg').value;
+            console.log('name: ', name)
+            console.log('email: ', email)
+            console.log('msg: ', msg)
+            const data = {
+                name: name,
+                email: email,
+                msg: msg
+            };
+            console.log("BODY:")
+            console.log(JSON.stringify(data))
+            // Replace 'your-api-endpoint' with the actual API endpoint you want to call
+            const apiUrl = 'api/messages/send';
+            // Making a POST request
+            fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    // Add any other headers your API requires
+                },
+                body: JSON.stringify(data),
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Success:', data);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+
+            location.reload(true);
+        }
+    </script>
+</body>
+
+</html>

@@ -3,7 +3,7 @@ name: Docker Image CI
 on: #workflow_dispatch
   push:
     branches: [ "main" ]
-    path: [ "be-app/**" ]
+    path: [ "fe-app/**" ]
   #pull_request:
   #  branches: [ "main" ]
 
@@ -21,7 +21,7 @@ jobs:
       uses: docker/metadata-action@v5
       with:
         images: |
-          lklaric/tc-be-app
+          lklaric/tc-fe-app
         tags: |
           type=sha,enable=true,priority=100,prefix=,suffix=,format=short
 
@@ -42,7 +42,7 @@ jobs:
       name: Build and push
       uses: docker/build-push-action@v5
       with:
-        context: ./be-app
+        context: ./fe-app
         push: true
         tags: ${{ steps.meta.outputs.tags }}
         labels: ${{ steps.meta.outputs.labels }}

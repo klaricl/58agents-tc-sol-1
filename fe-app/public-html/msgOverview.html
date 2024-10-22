@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your One-Page Website</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            background-image: url('https://b.kisscc0.com/20180517/ye/kisscc0-anxiety-desktop-wallpaper-open-source-software-pre-nature-5afd7e62450717.4411739115265624022828.jpg'); /* Replace with your banner image URL */
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
+            padding: 100px 0;
+        }
+
+        nav {
+          background-color: #333;
+          overflow: hidden;
+        }
+    
+        nav a {
+          float: left;
+          display: block;
+          color: white;
+          text-align: center;
+          padding: 14px 16px;
+          text-decoration: none;
+        }
+
+        section {
+            max-width: 800px;
+            margin: 2em auto;
+            padding: 1em;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 1em;
+        }
+        form {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        form label {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        form input,
+        form textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        form button {
+            background: #333;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        table {
+          width: 100%;
+          border-collapse: collapse;
+          border-spacing: 0;
+          margin-bottom: 20px;
+        }
+        th, td {
+          padding: 12px 15px;
+          text-align: left;
+          border-bottom: 1px solid #ddd;
+        }
+        th {
+          background-color: #f2f2f2;
+        }
+        tr:hover {
+          background-color: #f5f5f5;
+        }
+        caption {
+          font-size: 1.2em;
+          font-weight: bold;
+          margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="healthcheck.html">API healthcheck</a>
+        <a href="msgOverview.html">Overview of messages</a>
+        <a href="https://keycloak.homelab.klaric.link/realms/vrba/protocol/openid-connect/auth?response_type=code&client_id=vrba-overview&redirect_uri=http://vrba.homelab.klaric.link/api/callback&scope=openid">Login</a>
+        <!-- Add more links as needed -->
+    </nav>
+
+    <section>
+        <table id="myTable">
+            <caption>Overview</caption>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>E-Mail</th>
+                    <th>Message</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Table rows will be added here -->
+            </tbody>
+        </table>
+    </section>
+
+    <footer>
+        <p>&copy; 2023 Klaric. All rights reserved.</p>
+    </footer>
+    <script>
+        // Replace 'your-api-endpoint' with the actual API endpoint you want to call
+        
+        const apiIntrospect = 'api/introspect'
+        fetch(apiIntrospect)
+            .then(response => {
+                // Check if the request was successful (status code 200-299)
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+            
+                // Parse the JSON in the response
+                console.log('Response:', response);
+                return response.json();
+            })
+            .then(data => {
+                // Process the data from the API
+                console.log("-> DATA")
+                console.log(data)
+                console.log("-> DATA.AUTHENTICATED")
+                console.log(data.authenticated)
+                if (data.authenticated === false) {
+                  // Redirect to another page
+                  console.log("-> REDIRECTING")
+                  window.location.href = 'https://keycloak.homelab.klaric.link/realms/vrba/protocol/openid-connect/auth?response_type=code&client_id=vrba-overview&redirect_uri=https://vrba.homelab.klaric.link/api/callback&scope=openid';
+                }
+            })
+            .catch(error => {
+                console.error('Fetch error:', error);
+            });
+        
+        const apiUrl = 'api/messages/get';
+        fetch(apiUrl)
+            .then(response => {
+                // Check if the request was successful (status code 200-299)
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+            
+                // Parse the JSON in the response
+                console.log('Response:', response);
+                return response.json();
+            })
+            .then(data => {
+                // Process the data from the API
+                console.log("-> DATA")
+                console.log(data)
+                const tableBody = document.querySelector('#myTable tbody');
+                data.forEach(rowData => {
+                    const row = document.createElement('tr');
+                    
+                    let nameTd = document.createElement("td")
+                    let emailTd = document.createElement("td")
+                    let msgTd = document.createElement("td")
+
+                    nameTd.innerText = rowData.name
+                    emailTd.innerText = rowData.email
+                    msgTd.innerText = rowData.msg
+
+                    row.appendChild(nameTd);
+                    row.appendChild(emailTd);
+                    row.appendChild(msgTd);
+
+
+                    tableBody.appendChild(row);
+                    
+                    /*
+                    Object.values(rowData).forEach(value => {
+                        const cell = document.createElement('td');
+                        cell.textContent = value;
+                        row.appendChild(cell);
+                    });
+                    tableBody.appendChild(row);
+                    */
+                });
+                console.log(data);
+            })
+            .catch(error => {
+                // Handle errors
+                console.error('Fetch error:', error);
+            });
+        
+    </script>
+</body>
+
+</html>
