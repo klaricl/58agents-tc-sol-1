@@ -74,5 +74,6 @@ jobs:
             -backend-config=client_certificate=${{ secrets.CLIENT_CERTIFICATE }} \
             -backend-config=client_key=${{ secrets.CLIENT_KEY }} \
             -backend-config=cluster_ca_certificate=${{ secrets.CLUSTER_CA_CERTIFICATE }} \
+            -backend-config=host=https://192.168.49.2:8443
             -reconfigure
           terraform plan 
