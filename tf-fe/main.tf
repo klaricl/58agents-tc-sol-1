@@ -54,7 +54,7 @@ resource "kubernetes_service" "svc-fe-app" {
   }
 }
 
-resource "kubernetes_ingress" "ingress_fe_app{
+resource "kubernetes_ingress" "ingress_fe_app" {
   metadata {
       name = "ingress-fe-app"
   }
