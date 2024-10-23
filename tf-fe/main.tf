@@ -63,8 +63,10 @@ resource "kubernetes_ingress_v1" "ingress_fe_app" {
       http {
         path {
           backend {
-            service_name = "svc-fe-app"
-            service_port = 80
+            service {
+              name = "svc-fe-app"
+              port = 80
+            }
           }
           path = "/"
         }
