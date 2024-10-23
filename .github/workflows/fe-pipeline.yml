@@ -66,10 +66,10 @@ jobs:
 
       - name: Terraform execution
         run: |
-          export TF_LOG=TRACE
+          #export TF_LOG=TRACE
           export TF_VAR_client_certificate=${{ secrets.CLIENT_CERTIFICATE }}
           export TF_VAR_client_key=${{ secrets.CLIENT_KEY }}
           export TF_VAR_cluster_ca_certificate=${{ secrets.CLUSTER_CA_CERTIFICATE }}
           cd tf-fe
           terraform init -reconfigure
-          terraform plan 
+          terraform apply -auto-approve 
