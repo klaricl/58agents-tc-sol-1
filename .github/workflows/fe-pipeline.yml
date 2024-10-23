@@ -72,4 +72,4 @@ jobs:
           export TF_VAR_cluster_ca_certificate=${{ secrets.CLUSTER_CA_CERTIFICATE }}
           cd tf-fe
           terraform init -reconfigure
-          terraform apply -auto-approve 
+          terraform apply -var=image_tag=${{ steps.meta.outputs.short_sha }} -auto-approve 
