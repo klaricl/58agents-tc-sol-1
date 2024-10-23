@@ -8,31 +8,48 @@ resource "kubernetes_deployment" "fe_deploy" {
   metadata {
     name = "fe-app"
     labels = {
-      app = fe-app
+      app = "fe-app"
     }
   }
   spec {
     replicas = 1
     selector {
       match_labels = {
-        app = fe-app
+        app = "fe-app"
       }
     }
     template {
       metadata {
         labels = {
-          app = fe-app
+          app = "fe-app"
         }
       }
       spec {
         container {
           image = "lklaric/fe-app:${var.image_tag}"
-          name = fe-app
+          name = "fe-app"
           port {
             container_port = 80
           }
         }
       }
+    }
+  }
+}
+
+resource "kubernetes_service" "svc-fe-app" {
+  metadata {
+    name = "svc-fe-app"
+  }
+  spec {
+    selector = {
+      app = "fe-app"
+    }
+    port {
+      port = 80
+      targetPort = 80
+      name = "http"
+      protocol = "TCP"
     }
   }
 }
