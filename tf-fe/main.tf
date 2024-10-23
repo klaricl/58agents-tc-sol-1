@@ -26,7 +26,7 @@ resource "kubernetes_deployment" "fe_deploy" {
       }
       spec {
         container {
-          image = "lklaric/fe-app:${var.image_tag}"
+          image = "lklaric/tc-fe-app:${var.image_tag}"
           name = "fe-app"
           port {
             container_port = 80
