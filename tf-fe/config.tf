@@ -1,4 +1,7 @@
 terraform {
+  backend "kubernetes" {
+    secret_suffix    = "58a_tc_state"
+  }
 }
 
 provider "kubernetes" {

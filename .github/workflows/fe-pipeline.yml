@@ -70,5 +70,9 @@ jobs:
           export TF_VAR_client_key=${{ secrets.CLIENT_KEY }}
           export TF_VAR_cluster_ca_certificate=${{ secrets.CLUSTER_CA_CERTIFICATE }}
           cd tf-fe
-          terraform init
+          terraform init \
+            -backend-config=client_certificate=${{ secrets.CLIENT_CERTIFICATE }} \
+            -backend-config=client_key=${{ secrets.CLIENT_KEY }} \
+            -backend-config=cluster_ca_certificate=${{ secrets.CLUSTER_CA_CERTIFICATE }} \
+            -reconfigure
           terraform plan 
