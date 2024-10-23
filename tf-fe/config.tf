@@ -1,6 +1,6 @@
 terraform {
-  backend "kubernetes" {
-    secret_suffix    = "58a_tc_state"
+  backend "local" {
+    path = "tfstate/dev.tfstate"
   }
 }
 
