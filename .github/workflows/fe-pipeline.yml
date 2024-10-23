@@ -73,4 +73,5 @@ jobs:
           export TF_VAR_image_tag=${{ steps.meta.outputs.short_sha }}
           cd tf-fe
           terraform init -update -reconfigure
+          terraform refresh
           terraform apply -auto-approve 
