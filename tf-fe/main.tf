@@ -47,7 +47,7 @@ resource "kubernetes_service" "svc-fe-app" {
     }
     port {
       port = 80
-      targetPort = 80
+      target_port = 80
       name = "http"
       protocol = "TCP"
     }

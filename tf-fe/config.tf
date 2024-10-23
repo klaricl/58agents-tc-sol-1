@@ -1,6 +1,6 @@
 terraform {
   backend "local" {
-    path = "../tfstate/dev.tfstate"
+    path = "../../../tfstate/dev.tfstate"
   }
 }
 
