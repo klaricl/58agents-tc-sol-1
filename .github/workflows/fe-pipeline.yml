@@ -70,6 +70,7 @@ jobs:
           export TF_VAR_client_certificate=${{ secrets.CLIENT_CERTIFICATE }}
           export TF_VAR_client_key=${{ secrets.CLIENT_KEY }}
           export TF_VAR_cluster_ca_certificate=${{ secrets.CLUSTER_CA_CERTIFICATE }}
+          export TF_VAR_image_tag=${{ steps.meta.outputs.short_sha }}
           cd tf-fe
           terraform init -reconfigure
-          terraform apply -var=image_tag=${{ steps.meta.outputs.short_sha }} -auto-approve 
+          terraform apply -auto-approve 
