@@ -53,12 +53,23 @@ resource "kubernetes_service" "svc-fe-app" {
     }
   }
 }
-#
-#resource "kubernetes_ingress" "ingress_fe_app{
-#  metadata {
-#
-#  }
-#  spec {
-#    
-#  }
-#}
+
+resource "kubernetes_ingress" "ingress_fe_app{
+  metadata {
+      name = "ingress-fe-app"
+  }
+  spec {
+    rule {
+      http {
+        path {
+          backend {
+            service_name = "svc-fe-app"
+            service_port = 80
+          }
+          path = "/"
+        }
+      }
+      host = "fe.127.0.0.1.nip.io"
+    }
+  }
+}
