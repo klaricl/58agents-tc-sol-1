@@ -3,7 +3,7 @@ name: Deploy Frontend QA
 on:  workflow_dispatch
 
 jobs:
-  deploy_qa:
+  deploy_fe_qa:
     runs-on: self-hosted
 
     steps:

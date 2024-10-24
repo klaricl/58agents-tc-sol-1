@@ -3,7 +3,7 @@ name: Deploy Frontend PROD
 on:  workflow_dispatch
 
 jobs:
-  deploy_qa:
+  deploy_fe_prod:
     runs-on: self-hosted
 
     steps:
