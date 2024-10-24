@@ -74,7 +74,7 @@ resource "kubernetes_ingress_v1" "ingress_fe_app" {
           path = "/"
         }
       }
-      host = "fe.127.0.0.1.nip.io"
+      host = "fe.192.168.49.2.nip.io"
     }
   }
 }
