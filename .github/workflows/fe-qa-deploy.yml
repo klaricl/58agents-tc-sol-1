@@ -1,4 +1,4 @@
-name: Deploy Backend QA
+name: Deploy Frontend QA
 
 on:  workflow_dispatch
 
@@ -18,5 +18,5 @@ jobs:
             #export TF_VAR_image_tag=${{ steps.meta.outputs.short_sha }}
             cd tf-app
             terraform init -reconfigure -backend-config=path="../../../tfstate/qa.fe.tfstate"
-            terraform apply -auto-approve -var="app_part_short=be" -var="env=qa"
+            terraform apply -auto-approve -var="app_part_short=fe" -var="env=qa"
   
