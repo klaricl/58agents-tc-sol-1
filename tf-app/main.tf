@@ -1,3 +1,16 @@
+ data "terraform_remote_state" "tag" {
+  count = var.env != "dev" ? 1 : 0
+  backend = "local"
+
+  config = {
+    path = "../../../tfstate/dev.be.tfstate"
+  }
+}
+
+ locals {
+     image_tag = try(one(data.terraform_remote_state.tag[*].outputs.image_tag), var.image_tag)
+ }
+
 resource "kubernetes_deployment" "deploy" {
   metadata {
     name = "${var.app_part_short}-app"
@@ -20,7 +33,7 @@ resource "kubernetes_deployment" "deploy" {
       }
       spec {
         container {
-          image = "lklaric/tc-${var.app_part_short}-app:${var.image_tag}"
+          image = "lklaric/tc-${var.app_part_short}-app:${local.image_tag}"
           name = "${var.app_part_short}-app"
           port {
             container_port = 80
@@ -67,7 +80,7 @@ resource "kubernetes_ingress_v1" "ingress_app" {
           path = "/"
         }
       }
-      host = "${var.app_part_short}.dev"
+      host = "${var.app_part_short}.${var.dev}"
     }
   }
 }

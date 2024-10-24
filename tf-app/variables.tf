@@ -12,8 +12,14 @@ variable "cluster_ca_certificate" {
 
 variable "image_tag" {
     type = string
+    default = null
 }
 
 variable "app_part_short" {
     type = string
+}
+
+variable "env" {
+    type = string
+    default = "dev"
 }
