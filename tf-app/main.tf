@@ -3,7 +3,7 @@
   backend = "local"
 
   config = {
-    path = "../../../tfstate/dev.be.tfstate"
+    path = "../../../tfstate/dev.${var.app_part_short}.tfstate"
   }
 }
 
