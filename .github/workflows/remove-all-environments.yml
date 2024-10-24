@@ -3,7 +3,7 @@ name: Remove all environments
 on:  workflow_dispatch
 
 jobs:
-  deploy_qa:
+  remove_ens:
     runs-on: self-hosted
 
     steps:
@@ -21,11 +21,11 @@ jobs:
             terraform init -reconfigure -backend-config=path="../../../tfstate/dev.fe.tfstate"
             terraform destroy -auto-approve -var="app_part_short=fe"
 
-            terraform init -reconfigure -backend-config=path="../../../tfstate/prod.be.tfstate"
-            terraform destroy -auto-approve -var="app_part_short=be" -var="env=prod"
+            #terraform init -reconfigure -backend-config=path="../../../tfstate/prod.be.tfstate"
+            #terraform destroy -auto-approve -var="app_part_short=be" -var="env=prod"
 
-            terraform init -reconfigure -backend-config=path="../../../tfstate/qa.fe.tfstate"
-            terraform destroy -auto-approve -var="app_part_short=fe" -var="env=qa"
+            #terraform init -reconfigure -backend-config=path="../../../tfstate/qa.fe.tfstate"
+            #terraform destroy -auto-approve -var="app_part_short=fe" -var="env=qa"
 
-            terraform init -reconfigure -backend-config=path="../../../tfstate/qa.be.tfstate"
-            terraform destroy -auto-approve -var="app_part_short=be" -var="env=qa"
+            #terraform init -reconfigure -backend-config=path="../../../tfstate/qa.be.tfstate"
+            #terraform destroy -auto-approve -var="app_part_short=be" -var="env=qa"
