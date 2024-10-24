@@ -1,33 +1,27 @@
-resource "kubernetes_namespace" "example" {
+resource "kubernetes_deployment" "deploy" {
   metadata {
-    name = "pipeline-test-fe"
-  }
-}
-
-resource "kubernetes_deployment" "fe_deploy" {
-  metadata {
-    name = "fe-app"
+    name = "${var.app_part_short}-app"
     labels = {
-      app = "fe-app"
+      app = "${var.app_part_short}-app"
     }
   }
   spec {
     replicas = 1
     selector {
       match_labels = {
-        app = "fe-app"
+        app = "${var.app_part_short}-app"
       }
     }
     template {
       metadata {
         labels = {
-          app = "fe-app"
+          app = "${var.app_part_short}-app"
         }
       }
       spec {
         container {
-          image = "lklaric/tc-fe-app:${var.image_tag}"
-          name = "fe-app"
+          image = "lklaric/tc-${var.app_part_short}-app:${var.image_tag}"
+          name = "${var.app_part_short}-app"
           port {
             container_port = 80
           }
@@ -37,13 +31,13 @@ resource "kubernetes_deployment" "fe_deploy" {
   }
 }
 
-resource "kubernetes_service" "svc-fe-app" {
+resource "kubernetes_service" "svc-app" {
   metadata {
-    name = "svc-fe-app"
+    name = "svc-${var.app_part_short}-app"
   }
   spec {
     selector = {
-      app = "fe-app"
+      app = "${var.app_part_short}-app"
     }
     port {
       port = 80
@@ -54,9 +48,9 @@ resource "kubernetes_service" "svc-fe-app" {
   }
 }
 
-resource "kubernetes_ingress_v1" "ingress_fe_app" {
+resource "kubernetes_ingress_v1" "ingress_app" {
   metadata {
-      name = "ingress-fe-app"
+      name = "ingress-${var.app_part_short}-app"
   }
   spec {
     rule {
@@ -64,9 +58,8 @@ resource "kubernetes_ingress_v1" "ingress_fe_app" {
         path {
           backend {
             service {
-              name = "svc-fe-app"
+              name = "svc-${var.app_part_short}-app"
               port {
-                #name = "http"
                 number = 80
               }
             }
@@ -74,7 +67,7 @@ resource "kubernetes_ingress_v1" "ingress_fe_app" {
           path = "/"
         }
       }
-      host = "fe.192.168.49.2.nip.io"
+      host = "${var.app_part_short}.example"
     }
   }
 }
