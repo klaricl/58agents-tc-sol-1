@@ -8,7 +8,7 @@
 }
 
  locals {
-     image_tag = try(one(data.terraform_remote_state.tag[*].outputs.image_tag), var.image_tag)
+     image_tag = one(data.terraform_remote_state.tag[*].outputs.image_tag) != null ? one(data.terraform_remote_state.tag[*].outputs.image_tag) : var.image_tag
  }
 
 resource "kubernetes_deployment" "deploy" {
