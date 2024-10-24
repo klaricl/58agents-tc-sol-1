@@ -12,12 +12,6 @@ locals {
     previous_stage = var.env == "dev" ? "null" : var.env == "qa" ? "dev" : "qa"
 }
 
-resource "kubernetes_namespace" "example" {
-  metadata {
-    name = var.env
-  }
-}
-
 resource "kubernetes_deployment" "deploy" {
   metadata {
     name = "${var.app_part_short}-app"
