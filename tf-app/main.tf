@@ -20,6 +20,10 @@ output "prevoius_tag" {
   value = one(data.terraform_remote_state.tag[*].outputs.image_tag)
 }
 
+output "env" {
+  value = var.env
+}
+
 resource "kubernetes_deployment" "deploy" {
   metadata {
     name = "${var.app_part_short}-app"
