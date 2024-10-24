@@ -3,7 +3,7 @@ name: Remove all environments
 on:  workflow_dispatch
 
 jobs:
-  remove_ens:
+  remove_envs:
     runs-on: self-hosted
 
     steps:
