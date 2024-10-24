@@ -48,6 +48,7 @@ jobs:
         push: true
         tags: ${{ steps.meta.outputs.tags }}
         labels: ${{ steps.meta.outputs.labels }}
+
   deploy:
     runs-on: self-hosted
     needs: build
@@ -65,5 +66,11 @@ jobs:
 
       - name: Terraform execution
         run: |
-          cd tf-be
-          echo "Hello World!"
+          #export TF_LOG=TRACE
+          export TF_VAR_client_certificate=${{ secrets.CLIENT_CERTIFICATE }}
+          export TF_VAR_client_key=${{ secrets.CLIENT_KEY }}
+          export TF_VAR_cluster_ca_certificate=${{ secrets.CLUSTER_CA_CERTIFICATE }}
+          export TF_VAR_image_tag=${{ steps.meta.outputs.short_sha }}
+          cd tf-app
+          terraform init -reconfigure -backend-config=path="../../../tfstate/dev.be.tfstate"
+          terraform apply -auto-approve -var="app_part_short=be"
