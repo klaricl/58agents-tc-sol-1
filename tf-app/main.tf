@@ -13,14 +13,14 @@ locals {
 
 resource "kubernetes_namespace" "example" {
   metadata {
-    name = ${var.env}
+    name = var.env
   }
 }
 
 resource "kubernetes_deployment" "deploy" {
   metadata {
     name = "${var.app_part_short}-app"
-    namespace = ${var.env}
+    namespace = var.env
     labels = {
       app = "${var.app_part_short}-app"
     }
@@ -54,7 +54,7 @@ resource "kubernetes_deployment" "deploy" {
 resource "kubernetes_service" "svc-app" {
   metadata {
     name = "svc-${var.app_part_short}-app"
-    namespace = ${var.env}
+    namespace = var.env
   }
   spec {
     selector = {
@@ -72,7 +72,7 @@ resource "kubernetes_service" "svc-app" {
 resource "kubernetes_ingress_v1" "ingress_app" {
   metadata {
     name = "ingress-${var.app_part_short}-app"
-    namespace = ${var.env}
+    namespace = var.env
   }
   spec {
     rule {
