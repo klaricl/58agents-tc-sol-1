@@ -16,6 +16,10 @@ output "previous_stage" {
   value = "${local.previous_stage}.${var.app_part_short}"
 }
 
+output "prevoius_tag" {
+  value = one(data.terraform_remote_state.tag[*].outputs.image_tag)
+}
+
 resource "kubernetes_deployment" "deploy" {
   metadata {
     name = "${var.app_part_short}-app"
