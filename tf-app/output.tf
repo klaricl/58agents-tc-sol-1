@@ -1,5 +1,5 @@
 output "image_tag" {
-    value = var.image_tag
+    value = local.image_tag
 }
 
 output "previous_stage" {
