@@ -12,6 +12,10 @@ locals {
     previous_stage = var.env == "dev" ? "null" : var.env == "qa" ? "dev" : "qa"
 }
 
+output "previous_stage" {
+  value = "${local.previous_stage}.${var.app_part_short}"
+}
+
 resource "kubernetes_deployment" "deploy" {
   metadata {
     name = "${var.app_part_short}-app"
