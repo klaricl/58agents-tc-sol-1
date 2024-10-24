@@ -1,10 +1,10 @@
-name: Frontend Pipeline
+name: Backend Pipeline DEV
 
 on:
   workflow_dispatch:
   push:
     branches: [ "main" ]
-    paths: [ "fe-app/**" ]
+    paths: [ "be-app/**" ]
   #pull_request:
   #  branches: [ "main" ]
 
@@ -23,7 +23,7 @@ jobs:
       uses: docker/metadata-action@v5
       with:
         images: |
-          lklaric/tc-fe-app
+          lklaric/tc-be-app
         tags: |
           type=sha,enable=true,priority=100,prefix=,suffix=,format=short
 
@@ -44,7 +44,7 @@ jobs:
       name: Build and push
       uses: docker/build-push-action@v5
       with:
-        context: ./fe-app
+        context: ./be-app
         push: true
         tags: ${{ steps.meta.outputs.tags }}
         labels: ${{ steps.meta.outputs.labels }}
@@ -72,5 +72,5 @@ jobs:
           export TF_VAR_cluster_ca_certificate=${{ secrets.CLUSTER_CA_CERTIFICATE }}
           export TF_VAR_image_tag=${{ steps.meta.outputs.short_sha }}
           cd tf-app
-          terraform init -reconfigure -backend-config=path="../../../tfstate/dev.fe.tfstate"
-          terraform apply -auto-approve -var="app_part_short=fe"
+          terraform init -reconfigure -backend-config=path="../../../tfstate/dev.be.tfstate"
+          terraform apply -auto-approve -var="app_part_short=be"
