@@ -1,0 +1,22 @@
+name: Deploy Frontend PROD
+
+on:  workflow_dispatch
+
+jobs:
+  deploy_qa:
+    runs-on: self-hosted
+
+    steps:
+        - uses: actions/checkout@v3
+
+        - name: Terraform execution
+          run: |
+            #export TF_LOG=TRACE
+            export TF_VAR_client_certificate=${{ secrets.CLIENT_CERTIFICATE }}
+            export TF_VAR_client_key=${{ secrets.CLIENT_KEY }}
+            export TF_VAR_cluster_ca_certificate=${{ secrets.CLUSTER_CA_CERTIFICATE }}
+            #export TF_VAR_image_tag=${{ steps.meta.outputs.short_sha }}
+            cd tf-app
+            terraform init -reconfigure -backend-config=path="../../../tfstate/prod.fe.tfstate"
+            terraform apply -auto-approve -var="app_part_short=fe" -var="env=prod"
+  
