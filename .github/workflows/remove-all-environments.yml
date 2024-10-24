@@ -24,8 +24,8 @@ jobs:
             #terraform init -reconfigure -backend-config=path="../../../tfstate/prod.be.tfstate"
             #terraform destroy -auto-approve -var="app_part_short=be" -var="env=prod"
 
-            #terraform init -reconfigure -backend-config=path="../../../tfstate/qa.fe.tfstate"
-            #terraform destroy -auto-approve -var="app_part_short=fe" -var="env=qa"
+            terraform init -reconfigure -backend-config=path="../../../tfstate/qa.fe.tfstate"
+            terraform destroy -auto-approve -var="app_part_short=fe" -var="env=qa"
 
             #terraform init -reconfigure -backend-config=path="../../../tfstate/qa.be.tfstate"
             #terraform destroy -auto-approve -var="app_part_short=be" -var="env=qa"
