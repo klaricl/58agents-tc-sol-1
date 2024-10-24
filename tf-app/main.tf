@@ -80,7 +80,7 @@ resource "kubernetes_ingress_v1" "ingress_app" {
           path = "/"
         }
       }
-      host = "${var.app_part_short}.${var.dev}"
+      host = "${var.app_part_short}.${var.env}"
     }
   }
 }
