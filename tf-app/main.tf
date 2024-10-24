@@ -8,20 +8,8 @@
 }
 
 locals {
-    image_tag = one(data.terraform_remote_state.tag[*].outputs.image_tag) != null ? one(data.terraform_remote_state.tag[*].outputs.image_tag) : var.image_tag
+    #image_tag = one(data.terraform_remote_state.tag[*].outputs.image_tag) != null ? one(data.terraform_remote_state.tag[*].outputs.image_tag) : var.image_tag
     previous_stage = var.env == "dev" ? "null" : var.env == "qa" ? "dev" : "qa"
-}
-
-output "previous_stage" {
-  value = "${local.previous_stage}.${var.app_part_short}"
-}
-
-output "prevoius_tag" {
-  value = one(data.terraform_remote_state.tag[*].outputs.image_tag)
-}
-
-output "env" {
-  value = var.env
 }
 
 resource "kubernetes_deployment" "deploy" {
