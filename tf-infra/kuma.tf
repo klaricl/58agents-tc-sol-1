@@ -88,17 +88,17 @@ resource "kubernetes_stateful_set" "stateful_set_kuma" {
             mount_path = "/app/data"
           }
         }
-        volume_claim_template {
-          metadata {
-            name = "kuma-data"
-          }
-          spec {
-            access_mode = "ReadWriteOnce"
-            volume_mode = "Filesystem"
-            resources {
-              requests = {
-                storage = "1Gi"
-              }
+      }
+      volume_claim_template {
+        metadata {
+          name = "kuma-data"
+        }
+        spec {
+          access_mode = "ReadWriteOnce"
+          volume_mode = "Filesystem"
+          resources {
+            requests = {
+              storage = "1Gi"
             }
           }
         }
