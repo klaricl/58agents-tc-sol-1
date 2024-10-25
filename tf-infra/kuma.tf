@@ -93,7 +93,9 @@ resource "kubernetes_stateful_set" "stateful_set_kuma" {
             name = "kuma-data"
           }
           spec {
-            access_mode: ["ReadWriteOnce"]
+            access_mode = {
+              - "ReadWriteOnce"
+            }
             volume_mode = "Filesystem"
             resources {
               requests = {
