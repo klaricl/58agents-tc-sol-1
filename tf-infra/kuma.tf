@@ -1,4 +1,4 @@
-resource "kubernetes_namespace" "ns_prod" {
+resource "kubernetes_namespace" "ns_kuma" {
   metadata {
     name = "kuma"
   }
