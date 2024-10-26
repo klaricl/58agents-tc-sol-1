@@ -9,7 +9,7 @@ on:
   #  branches: [ "main" ]
 
 jobs:
-  be-dev-build:
+  be_dev_build:
     #runs-on: ubuntu-latest
     runs-on: self-hosted
 
@@ -49,9 +49,9 @@ jobs:
         tags: ${{ steps.meta.outputs.tags }}
         labels: ${{ steps.meta.outputs.labels }}
 
-  be-dev-deploy:
+  be_dev_deploy:
     runs-on: self-hosted
-    needs: build
+    needs: be_dev_build
 
     steps:
       - uses: actions/checkout@v3
