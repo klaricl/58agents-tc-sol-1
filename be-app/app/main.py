@@ -70,7 +70,6 @@ async def post_msg(msg: Msg):
 async def get_msg():
     try:
         conn = psycopg2.connect("dbname='tc' user='postgres' host='svc-db' password='postgres'")
-        #conn.autocommit = True
     except:
         return {"err": "Database connection error"}
     
