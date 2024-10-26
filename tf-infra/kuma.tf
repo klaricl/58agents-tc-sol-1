@@ -24,7 +24,7 @@ resource "kubernetes_service" "svc-kuma" {
 
 resource "kubernetes_ingress_v1" "ingress_kuma" {
   metadata {
-    name = "kuma"
+    name = "ing-kuma"
     namespace = "kuma"
   }
   spec {
@@ -49,7 +49,7 @@ resource "kubernetes_ingress_v1" "ingress_kuma" {
 
 resource "kubernetes_stateful_set" "stateful_set_kuma" {
   metadata {
-    name = "ing-kuma"
+    name = "ss-kuma"
     namespace = "kuma"
   }
   spec {

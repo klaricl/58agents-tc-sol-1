@@ -81,10 +81,11 @@ resource "kubernetes_ingress_v1" "ingress_app" {
               }
             }
           }
-          path = "/"
+          path = var.app_part_short == "be" ? "/api" : "/"
         }
       }
-      host = "${var.app_part_short}.${var.env}"
+      #host = "${var.app_part_short}.${var.env}"
+      host = "app.${var.env}"
     }
   }
 }

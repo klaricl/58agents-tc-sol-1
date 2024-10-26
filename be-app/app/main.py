@@ -12,8 +12,8 @@ from fastapi import FastAPI, HTTPException, Depends, Request, Response, Cookie
 from fastapi.responses import RedirectResponse
 from fastapi.middleware.cors import CORSMiddleware
 
-app = FastAPI()
-#app = FastAPI(root_path="/api")
+#app = FastAPI()
+app = FastAPI(root_path="/api")
 
 origins = [
     "*"
@@ -33,9 +33,9 @@ class Msg(BaseModel):
     email: str
     msg: str
 
-@app.get("/")
-def healthcheck():
-    return {"msg": "Running!"}
+#@app.get("/")
+#def healthcheck():
+#    return {"msg": "Running!"}
 
 @app.get("/items/{item_id}")
 def read_item(item_id: int, q: Union[str, None] = None):
@@ -50,7 +50,7 @@ async def post_msg(msg: Msg):
     print("{} STARTING SEND".format(datetime.datetime.now().strftime("[%H:%M:%S-%d%m%Y]")))
     print(msg)
     try:
-        conn = psycopg2.connect("dbname='vrba' user='postgres' host='vrba-db' password='postgres'")
+        conn = psycopg2.connect("dbname='tc' user='postgres' host='svc-db' password='postgres'")
         conn.autocommit = True
     except:
         return {"err": "Database connection error"}
