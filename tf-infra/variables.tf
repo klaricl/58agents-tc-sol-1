@@ -9,3 +9,8 @@ variable "client_key" {
 variable "cluster_ca_certificate" {
     type = string
 }
+
+variable "enviroments" {
+  type    = set(string)
+  default = ["dev", "qa", "prod"]
+}
