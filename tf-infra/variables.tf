@@ -10,7 +10,7 @@ variable "cluster_ca_certificate" {
     type = string
 }
 
-variable "enviroments" {
+variable "environments" {
   type    = set(string)
   default = ["dev", "qa", "prod"]
 }
