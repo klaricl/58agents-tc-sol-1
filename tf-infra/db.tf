@@ -73,7 +73,7 @@ resource "kubernetes_config_map" "db_user_init" {
     namespace = each.key
   }
   data = {
-    user-init.sh = <<EOT
+    "user-init.sh" = <<EOT
         #!/bin/bash
         set -e
     
