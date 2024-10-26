@@ -80,7 +80,7 @@ set -e
 	CREATE USER tcadm;
 	CREATE DATABASE tc;
 	GRANT ALL PRIVILEGES ON DATABASE tc TO tcadm;
-  \c vrba
+  \c tc
   CREATE TABLE IF NOT EXISTS messages (
     name varchar(45) NOT NULL,
     email varchar(50) NOT NULL,
