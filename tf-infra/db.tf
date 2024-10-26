@@ -77,9 +77,9 @@ resource "kubernetes_config_map" "db_user_init" {
 #!/bin/bash
 set -e
     psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-EOSQL
-	CREATE USER vrbaadm;
-	CREATE DATABASE vrba;
-	GRANT ALL PRIVILEGES ON DATABASE vrba TO vrbaadm;
+	CREATE USER tcadm;
+	CREATE DATABASE tc;
+	GRANT ALL PRIVILEGES ON DATABASE tc TO tcadm;
   \c vrba
   CREATE TABLE IF NOT EXISTS messages (
     name varchar(45) NOT NULL,
