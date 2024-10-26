@@ -138,35 +138,7 @@
     </footer>
     <script>
         // Replace 'your-api-endpoint' with the actual API endpoint you want to call
-        
-        const apiIntrospect = 'api/introspect'
-        fetch(apiIntrospect)
-            .then(response => {
-                // Check if the request was successful (status code 200-299)
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
-            
-                // Parse the JSON in the response
-                console.log('Response:', response);
-                return response.json();
-            })
-            .then(data => {
-                // Process the data from the API
-                console.log("-> DATA")
-                console.log(data)
-                console.log("-> DATA.AUTHENTICATED")
-                console.log(data.authenticated)
-                if (data.authenticated === false) {
-                  // Redirect to another page
-                  console.log("-> REDIRECTING")
-                  window.location.href = 'https://keycloak.homelab.klaric.link/realms/vrba/protocol/openid-connect/auth?response_type=code&client_id=vrba-overview&redirect_uri=https://vrba.homelab.klaric.link/api/callback&scope=openid';
-                }
-            })
-            .catch(error => {
-                console.error('Fetch error:', error);
-            });
-        
+
         const apiUrl = 'api/messages/get';
         fetch(apiUrl)
             .then(response => {
