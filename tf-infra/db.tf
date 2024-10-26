@@ -48,9 +48,10 @@ resource "kubernetes_deployment" "deploy" {
 }
 
 resource "kubernetes_service" "svc_db" {
+  for_each = var.environments
   metadata {
     name = "svc-db"
-    namespace = var.env
+    namespace = each.key
   }
   spec {
     selector = {
@@ -66,9 +67,10 @@ resource "kubernetes_service" "svc_db" {
 }
 
 resource "kubernetes_config_map" "db_user_init" {
+  for_each = var.environments
   metadata {
     name = "db-user-init"
-    namespace = var.env
+    namespace = each.key
   }
   data = {
     user-init.sh = <<EOT
