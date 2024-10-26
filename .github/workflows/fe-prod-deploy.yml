@@ -1,6 +1,12 @@
 name: Deploy Frontend PROD
 
-on:  workflow_dispatch
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    tags:
+      - v[12].[0-9]+.[0-9]+
 
 jobs:
   deploy_fe_prod:
