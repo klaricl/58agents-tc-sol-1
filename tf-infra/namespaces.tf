@@ -1,4 +1,4 @@
-resource "kubernetes_namespace" "ns_dev" {
+resource "kubernetes_namespace" "namespaces" {
   for_each = var.envrionments
   metadata {
     name = each.key

@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     branches: [ "main" ]
-    paths: [ "be-app/**" ]
+    paths: [ "tf-infra/**" ]
 
 jobs:
   setup_infra:
