@@ -6,13 +6,7 @@ In the following sections, I will outline my methodology, the tools and technolo
 
 I look forward to any feedback you may have and hope this documentation reflects my commitment to excellence and continuous learning.
 
-# Prerequisits
-
-Here’s a structured **Prerequisites** section in Markdown:
-
----
-
-## Prerequisites
+# Prerequisites
 
 To ensure a smooth setup and execution of the challenge, please complete the following steps:
 
@@ -113,11 +107,23 @@ Ensure all the above steps are completed before proceeding with the challenge to
 
 ![alt text](images/landscape.png "Title")
 
-# Application
+# Workload
+
+## Workload diagram
 
 ![alt text](images/application.png "Title")
 
 # Deployment
+
+## Workflow
+
+1. The namespaces, Uptime-kuma and the databases will be provisioned with the 'infra' workflow.
+1. Pushing to main will trigger the workflow to build the image and deploy the workload to the dev environment.
+1. Promoting to QA will be handled manually, by triggering the QA workflow. In this step, the image tag that is currently in the tfstate file of the dev environement will be fetched, and used in the terraform deployment resource.
+1. The prod-release workflow will be trigger by creating a new tag with format vX.Y.Z format.
+
+
+## Deployment diagram
 
 ![alt text](images/deployments.png "Title")
 
@@ -130,3 +136,4 @@ Ensure all the above steps are completed before proceeding with the challenge to
   - I tried to store it in Kubernetes using the kubernetes backend, but after I lost an hour or two, because I couldn't handle the authentication, I switched to local.
 - Certificate for for terraform is expiring in 24 hours. This could be, either automated or issued with longer expiration time.
 - instead of manually trigger the QA workflows, an approval step could be implemented.
+- The prod workflow will be triggered by every tag that fits the regex. With this in mind a lower version then the current could also trigger the workflow. It should be considered implement a rule which denies such triggers.
