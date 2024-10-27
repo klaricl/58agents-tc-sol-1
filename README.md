@@ -112,11 +112,14 @@ Ensure all the above steps are completed before proceeding with the challenge to
 # Landscape
 
 ## Tools used
-- Github as repository
-- Github actions as CI/CD tool
-- Minikube to run local single node kubernetes cluster
-- Terraform to deploy the workload to kubernetes
-- Dockerhub as image registry
+
+The following tools were used to manage the application’s code, infrastructure, and deployment pipeline:
+
+- **GitHub**: Used as the primary code repository to manage source code and track changes.
+- **GitHub Actions**: Employed as the CI/CD tool to automate testing, building, and deployment workflows.
+- **Minikube**: Set up to run a local, single-node Kubernetes cluster for development and testing.
+- **Terraform**: Utilized to define and deploy infrastructure as code, provisioning the workload on Kubernetes.
+- **Docker Hub**: Used as the container image registry to store and manage Docker images.
 
 ## Landscape diagram
 
@@ -124,13 +127,16 @@ Ensure all the above steps are completed before proceeding with the challenge to
 
 # Workload
 
-The workload consists of:
-- 3 stages in 3 different namespaces: dev, qa, prod. Every stage consists:
-  - Frontend service written in HTML and JavaScript, served by Apache Web Server
-  - Backend service written with Python using FastAPI framework
-  - PostgreSQL database
-- 1 namespace for Uptime-kuma
-  - Uptime-Kuma monitoring tool
+The application workload is structured across multiple stages and namespaces as follows:
+
+1. **Stages**  
+   There are three stages, each in its own namespace: `dev`, `qa`, and `prod`. Each stage includes:
+   - **Frontend Service**: Developed with HTML and JavaScript, served by an Apache Web Server.
+   - **Backend Service**: Built with Python using the FastAPI framework to handle API requests and business logic.
+   - **PostgreSQL Database**: Used as the primary database for data persistence.
+
+2. **Monitoring Namespace**  
+   - A dedicated namespace is set up for **Uptime-Kuma**, a monitoring tool used to track the uptime and health of the services across the stages.
 
 ## Workload diagram
 
@@ -140,10 +146,19 @@ The workload consists of:
 
 ## Workflow
 
-1. The namespaces, Uptime-kuma and the databases will be provisioned with the 'infra' workflow.
-1. Pushing to main will trigger the workflow to build the image and deploy the workload to the dev environment.
-1. Promoting to QA will be handled manually, by triggering the QA workflow. In this step, the image tag that is currently in the tfstate file of the dev environement will be fetched, and used in the terraform deployment resource.
-1. The prod-release workflow will be trigger by creating a new tag with format vX.Y.Z format.
+1. **Infrastructure Provisioning with `infra` Workflow**  
+   - The `infra` workflow is responsible for provisioning the necessary namespaces, deploying Uptime-Kuma, and setting up databases required by the application.
+
+2. **Automated Deployment to Development Environment**  
+   - Pushing changes to the `main` branch will trigger a workflow that builds the application’s Docker image and deploys the workload to the development environment.
+
+3. **Manual Promotion to QA Environment**  
+   - Promotion to the QA environment is done manually by triggering the QA workflow.
+   - In this step, the image tag currently stored in the Terraform state file of the development environment is retrieved and used in the Terraform deployment resource for QA.
+
+4. **Production Release**  
+   - The `prod-release` workflow is triggered by creating a new tag in the format `vX.Y.Z`.
+   - The image tag is fetched from the QA environment's Terraform state file, ensuring the QA-tested image is deployed to production.
 
 
 ## Deployment diagram
@@ -152,11 +167,11 @@ The workload consists of:
 
 # Notes
 
-- due to simplicity, the whole codebase, for infra, Fe and Be, ind stored in one repository. It would be better to seperate them.
-- it would be better to deploy the workload with the gitops approach, using Flux or ArgoCD.
-- PostgreSQL username and password is hardcoded in the backend python app. An secrets manager/vault should be used instead
-- local terraform backend is used, and the tfstate files are stored in _work folder of the actions-runner. A better solution should used to store the tfstate file, which is more secure and provide the lock feature.
-  - I tried to store it in Kubernetes using the kubernetes backend, but after I lost an hour or two, because I couldn't handle the authentication, I switched to local.
-- Certificate for for terraform is expiring in 24 hours. This could be, either automated or issued with longer expiration time.
-- instead of manually trigger the QA workflows, an approval step could be implemented.
-- The prod workflow will be triggered by every tag that fits the regex. With this in mind a lower version then the current could also trigger the workflow. It should be considered implement a rule which denies such triggers.
+- For simplicity, the entire codebase (infrastructure, frontend, and backend) is stored in a single repository. Ideally, these components should be separated into individual repositories.
+- A GitOps approach (using tools like **Flux** or **ArgoCD**) would be preferable for deploying the workload, as it would enhance consistency and reliability.
+- **PostgreSQL** credentials (username and password) are currently hardcoded in the backend Python application. Using a secrets manager or vault would be a more secure solution.
+- A local Terraform backend is used, with `tfstate` files stored in the `_work` folder of the Actions runner. A more secure and robust solution should be implemented to store the `tfstate` files, preferably one that supports locking.
+   - Although an attempt was made to use the Kubernetes backend for `tfstate` storage, authentication issues took significant time to troubleshoot, leading to a switch to the local backend.
+- The certificate for Terraform expires every 24 hours. Automation or a certificate with a longer expiration period should be considered.
+- Instead of manually triggering the QA workflows, an approval step could be implemented for a smoother process.
+- The production workflow is triggered by any tag that matches the specified regex. Currently, this includes lower version tags than the latest, which could unintentionally trigger a rollback. It would be advisable to add a rule to prevent triggering the workflow with lower versions.
