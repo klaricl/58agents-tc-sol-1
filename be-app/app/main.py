@@ -1,41 +1,17 @@
 import psycopg2
-import os
 import datetime
 
 from psycopg2.extras import RealDictCursor
-
-from typing import Union, Annotated
-
+from typing import Union
 from pydantic import BaseModel
+from fastapi import FastAPI
 
-from fastapi import FastAPI, HTTPException, Depends, Request, Response, Cookie
-from fastapi.responses import RedirectResponse
-from fastapi.middleware.cors import CORSMiddleware
-
-#app = FastAPI()
 app = FastAPI(root_path="/api")
-
-origins = [
-    "*"
-    ]
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=origins,
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-    expose_headers=["*"]
-)
 
 class Msg(BaseModel):
     name: str
     email: str
     msg: str
-
-#@app.get("/")
-#def healthcheck():
-#    return {"msg": "Running!"}
 
 @app.get("/items/{item_id}")
 def read_item(item_id: int, q: Union[str, None] = None):
@@ -64,7 +40,8 @@ async def post_msg(msg: Msg):
 
     return {
         "note": "Your message was sent!",
-        "msg": msg}
+        "msg": msg
+        }
 
 @app.get("/messages/get")
 async def get_msg():
@@ -77,7 +54,6 @@ async def get_msg():
         try:
             dbtest_curs.execute("SELECT * FROM messages")
             dbtest_rows = dbtest_curs.fetchall()
-            #print(dbtest_rows)
         except (Exception, psycopg2.DatabaseError) as error:
             print(error)
             return {"err": error}
