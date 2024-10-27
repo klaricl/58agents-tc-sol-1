@@ -21,10 +21,7 @@ To ensure a smooth setup and execution of the challenge, please complete the fol
   - Set up a [self-hosted GitHub runner](https://docs.github.com/en/actions/hosting-your-own-runners/about-self-hosted-runners) to allow GitHub Actions to run workflows in your environment.
 
 3. **Install Docker Buildx and Terraform**  
-  - Install Docker Buildx to enable advanced buildoptions for Docker images:
-    ```bash
-    # Docker Buildx installation steps
-    ```
+  - Install Docker Buildx to enable advanced buildoptions for Docker images.
   - Install [Terraform](https://www.terraform.io/downloads) for managing infrastructure as code.
 
 4. **Generate Kubernetes Credentials for Terraform User**  
