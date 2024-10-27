@@ -21,12 +21,22 @@ To ensure a smooth setup and execution of the challenge, please complete the fol
   - Set up a [self-hosted GitHub runner](https://docs.github.com/en/actions/hosting-your-own-runners/about-self-hosted-runners) to allow GitHub Actions to run workflows in your environment.
 
 3. **Install Docker Buildx and Terraform**  
-  - Install Docker Buildx to enable advanced buildoptions for Docker images.
+  - Install [Docker Buildx](https://github.com/docker/buildx) to enable advanced buildoptions for Docker images.
   - Install [Terraform](https://www.terraform.io/downloads) for managing infrastructure as code.
 
 4. **Generate Kubernetes Credentials for Terraform User**  
+  - [How to issue a certificate for a user](https://kubernetes.io/docs/reference/access-authn-authz/certificate-signing-requests/#normal-user)
   - Generate a public key and CSR (Certificate SigningRequest) for the Terraform user.
+    ```bash
+    openssl genrsa -out tf.key 2048
+    openssl req -new -key tf.key -out tf.csr -subj "/CN=terraform"
+    ```
   - Create the CSR in Kubernetes:
+    ```bash
+    # create base64 of tf.csr
+    cat myuser.csr | base64 | tr -d "\n"
+    ```
+
     ```yaml
     #example of csr.yaml
     apiVersion: certificates.k8s.io/v1
@@ -73,7 +83,7 @@ To ensure a smooth setup and execution of the challenge, please complete the fol
    - Use the downloaded client certificate, client key, and cluster CA certificate (~/.minikube/ca.crt) in the terraform provider block (step 6.).
 
 5. **Create Personal Access Token for Docker Hub**  
-  - Generate a personal access token on [Docker Hub(https://hub.docker.com/) to allow access for imagepushes.
+  - Generate a personal access token on [Docker Hub(https://hub.docker.com/) to allow access for image pushes.
 
 6. **Store Credentials in GitHub Secrets**  
   - Store the following credentials securely as GitHub ecrets to enable GitHub Actions to access them:
@@ -89,6 +99,13 @@ To ensure a smooth setup and execution of the challenge, please complete the fol
     - app.qa
     - app.prod
     - kuma.env
+  ```
+  # example
+  192.168.49.2 app.dev
+  192.168.49.2 app.qa
+  192.168.49.2 app.prod
+  192.168.49.2 kuma.env
+  ```
 
 Ensure all the above steps are completed before proceeding with the challenge to avoid setup issues. 
 
@@ -97,6 +114,7 @@ Ensure all the above steps are completed before proceeding with the challenge to
 ## Tools used
 - Github as repository
 - Github actions as CI/CD tool
+- Minikube to run local single node kubernetes cluster
 - Terraform to deploy the workload to kubernetes
 - Dockerhub as image registry
 
@@ -105,6 +123,14 @@ Ensure all the above steps are completed before proceeding with the challenge to
 ![alt text](images/landscape.png "Title")
 
 # Workload
+
+The workload consists of:
+- 3 stages in 3 different namespaces: dev, qa, prod. Every stage consists:
+  - Frontend service written in HTML and JavaScript, served by Apache Web Server
+  - Backend service written with Python using FastAPI framework
+  - PostgreSQL database
+- 1 namespace for Uptime-kuma
+  - Uptime-Kuma monitoring tool
 
 ## Workload diagram
 
