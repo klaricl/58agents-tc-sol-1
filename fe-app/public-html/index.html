@@ -175,6 +175,9 @@
             })
             .then(data => {
                 console.log('Success:', data);
+                document.getElementById('name').value = '';
+                document.getElementById('email').value = '';
+                document.getElementById('msg').value = '';
             })
             .catch(error => {
                 console.error('Error:', error);
