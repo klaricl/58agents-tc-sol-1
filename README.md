@@ -175,4 +175,5 @@ The application workload is structured across multiple stages and namespaces as 
 - The certificate for Terraform expires every 24 hours. Automation or a certificate with a longer expiration period should be considered.
 - Instead of manually triggering the QA workflows, an approval step could be implemented for a smoother process.
 - The production workflow is triggered by any tag that matches the specified regex. Currently, this includes lower version tags than the latest, which could unintentionally trigger a rollback. It would be advisable to add a rule to prevent triggering the workflow with lower versions.
-- Add Terraform validation before the deployment.
+- To ensure the integrity of the infrastructure code, it would be beneficial to include a Terraform validation step prior to deployment.
+- For improved organization, it would be preferable to use a dedicated `development` branch for dev deployments, `main` for QA, and `releases` for production. However, given the simplicity, size, and specific tasks of this project/workload, I have structured it as is for now.
