@@ -19,7 +19,7 @@ def read_item(item_id: int, q: Union[str, None] = None):
 
 @app.get("/healthcheck")
 def healthcheck():
-    return {"msg": "App API is up and running!"}
+    return {"msg": "App API is up and running!!!!!"}
 
 @app.post("/messages/send")
 async def post_msg(msg: Msg):
